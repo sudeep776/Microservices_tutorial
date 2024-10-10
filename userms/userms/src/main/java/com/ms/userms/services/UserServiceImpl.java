@@ -1,6 +1,7 @@
 package com.ms.userms.services;
 
 import com.ms.userms.exceptions.ResourceNotFoundException;
+import com.ms.userms.external_services.MovieService;
 import com.ms.userms.models.Movie;
 import com.ms.userms.models.Rating;
 import com.ms.userms.models.User;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
+    @Autowired
+    private MovieService movieService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -42,9 +45,10 @@ public class UserServiceImpl implements UserService{
 //        logger.info("{}",ratingsOfUser);
         List<Rating> ratings = Arrays.stream(ratingsOfUser).toList();
         List<Rating> ratingList = ratings.stream().map(rating->{
-            ResponseEntity<Movie> movie = restTemplate.getForEntity("http://MOVIE-SERVICE/movies/"+rating.getMovieId(), Movie.class);
-            Movie movie1 = movie.getBody();
-            rating.setMovie(movie1);
+//            ResponseEntity<Movie> movie = restTemplate.getForEntity("http://MOVIE-SERVICE/movies/"+rating.getMovieId(), Movie.class);
+//            Movie movie1 = movie.getBody();
+            Movie movie = movieService.getMovie(rating.getMovieId());
+            rating.setMovie(movie);
             return rating;
         }).collect(Collectors.toList());
         user.setRatings(ratingList);
