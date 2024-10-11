@@ -30,4 +30,16 @@ public class RatingServiceImpl implements RatingService{
     public List<Rating> getRatingByMovieId(Integer movieId) {
         return ratingRepository.findByMovieId(movieId);
     }
+
+    @Override
+    public Rating updateRatingById(String id, Rating rating) {
+        Rating findRating = ratingRepository.findById(id).orElseThrow(null);
+        ratingRepository.save(findRating);
+        return rating;
+    }
+
+    @Override
+    public void deleteRatingById(String id) {
+        ratingRepository.deleteById(id);
+    }
 }

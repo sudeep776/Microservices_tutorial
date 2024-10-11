@@ -12,4 +12,8 @@ public interface RatingService {
     List<Rating> getRatingsByUserId(Integer userId);
 
     List<Rating> getRatingByMovieId(Integer movieId);
+
+    Rating updateRatingById(String id,Rating rating);
+
+    void deleteRatingById(String id);
 }

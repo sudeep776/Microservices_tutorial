@@ -34,4 +34,15 @@ public class RatingController {
     public ResponseEntity<List<Rating>> getRatingsByMovieId(@PathVariable Integer movieId){
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getRatings());
     }
+
+    @PutMapping("/ratings/{ratingId}")
+    public ResponseEntity<Rating> updateRating(@PathVariable String ratingId, Rating rating){
+        Rating rating1 = ratingService.updateRatingById(ratingId,rating);
+        return ResponseEntity.status(HttpStatus.OK).body(rating1);
+    }
+
+    @DeleteMapping("/ratings/{ratingId}")
+    public void deleteRating(@PathVariable String ratingId){
+        ratingService.deleteRatingById(ratingId);
+    }
 }
