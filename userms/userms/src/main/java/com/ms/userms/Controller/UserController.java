@@ -29,8 +29,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @Retry(name = "ratingMovieService",fallbackMethod = "ratingMovieFallback")
     @CircuitBreaker(name = "ratingMovieBreaker",fallbackMethod = "ratingMovieFallback")
+    @Retry(name = "ratingMovieService")
     public ResponseEntity<User> getSingleUser(@PathVariable Integer userId){
         logger.info("req_count:"+count);
         count++;
