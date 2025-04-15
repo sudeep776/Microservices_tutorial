@@ -1,14 +1,12 @@
 package com.codingshuttle.ecommerce.inventory_service.controller;
 
+import com.codingshuttle.ecommerce.inventory_service.dto.OrderRequestDto;
 import com.codingshuttle.ecommerce.inventory_service.dto.ProductDto;
 import com.codingshuttle.ecommerce.inventory_service.entity.Product;
 import com.codingshuttle.ecommerce.inventory_service.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,4 +27,16 @@ public class ProductController {
         ProductDto productDto = productService.getProductById(id);
         return ResponseEntity.ok(productDto);
     }
+
+    @GetMapping("/test")
+    public String Test(){
+        return "Hello from Inventory Products";
+    }
+
+    @PutMapping("reduce-stocks")
+    public ResponseEntity<Double> reduceStocks(@RequestBody OrderRequestDto orderRequestDto){
+        Double totalPrice = productService.reduceStocks(orderRequestDto);
+        return ResponseEntity.ok(totalPrice);
+    }
+
 }

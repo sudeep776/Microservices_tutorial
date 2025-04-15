@@ -1,13 +1,11 @@
 package com.codingshuttle.ecommerce.order_service.controller;
 
+import com.codingshuttle.ecommerce.order_service.clients.InventoryClient;
 import com.codingshuttle.ecommerce.order_service.dto.OrderRequestDto;
 import com.codingshuttle.ecommerce.order_service.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +15,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final InventoryClient inventoryClient;
 
     @GetMapping
     public ResponseEntity<List<OrderRequestDto>> getAllOrders(){
@@ -26,5 +25,16 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<OrderRequestDto> getOrderById(@PathVariable Long id){
         return ResponseEntity.ok(orderService.getOrderById(id));
+    }
+
+    @PostMapping("create-order")
+    public ResponseEntity<OrderRequestDto> createOrder(@RequestBody OrderRequestDto orderRequestDto){
+        OrderRequestDto orderRequestDto1 = orderService.createOrder(orderRequestDto);
+        return ResponseEntity.ok(orderRequestDto1);
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return inventoryClient.testOrders();
     }
 }
